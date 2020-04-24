@@ -24,7 +24,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 
 # Install Web UI (Dashboard)
 
-Follow [Web UI installation]
+Follow [Web UI installation](doc/web-ui-dashboard.md)
 
 # Install nginx ingress
 Apply mandatory components and service
@@ -58,4 +58,4 @@ kind delete cluster --name kind
 
 
 <!--links-->
-[Web UI installation]: docs/web-ui-dashboard.md
+[Web UI installation]: doc/web-ui-dashboard.md
