@@ -7,32 +7,24 @@ A simple boilerplate for Kubernetes [Kind](https://kind.sigs.k8s.io/)
 kind create cluster --name kind --config cluster.yaml
 ```
 
+In order to interact with a specific cluster, you only need to specify the cluster name as a context in kubectl:
+
+```
+kubectl cluster-info --context kind-kind
+```
+
+You should see an output like this
+
+```
+Kubernetes master is running at https://127.0.0.1:32771
+KubeDNS is running at https://127.0.0.1:32771/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+```
 
 # Install Web UI (Dashboard)
-Official [Documentation](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 
-Deploy the dashboard
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
-```
-
-Creating sample user
-```
-kubectl apply -f dashboard/dashboard-adminuser.yaml
-```
-
-Get access token
-```
-kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
-```
-
-Accessing the Dashboard UI
-```
-kubectl proxy
-```
-Kubectl will make Dashboard available at http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.
-
-Now copy the token and paste it into `Enter token` field on login screen.
+Follow [Web UI installation]
 
 # Install nginx ingress
 Apply mandatory components and service
@@ -63,3 +55,7 @@ curl localhost/bar
 ```
 kind delete cluster --name kind
 ```
+
+
+<!--links-->
+[Web UI installation]: docs/web-ui-dashboard.md
