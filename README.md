@@ -26,19 +26,17 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 
 Follow [Web UI installation](doc/web-ui-dashboard.md)
 
-# Install nginx ingress
-Apply mandatory components and service
+# Install Nginx ingress
+These steps are taken from [Official kind docs](https://kind.sigs.k8s.io/docs/user/ingress/)
+
+## Setting Up An Nginx Ingress Controller
+Apply kind specific [manifest](https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml) see [ingress/deploy.yaml](ingress/deploy.yaml)
 ```
-kubectl apply -f ingress/mandatory.yaml
-kubectl apply -f ingress/service-nodeport.yaml
+kubectl apply -f ingress/deploy.yaml
 ```
 
-Apply kind specific patches
-```
-kubectl patch deployments -n ingress-nginx nginx-ingress-controller -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx-ingress-controller","ports":[{"containerPort":80,"hostPort":80},{"containerPort":443,"hostPort":443}]}],"nodeSelector":{"ingress-ready":"true"},"tolerations":[{"key":"node-role.kubernetes.io/master","operator":"Equal","effect":"NoSchedule"}]}}}}'
-```
-
-Using ingress
+## Using ingress
+The following example creates simple http-echo services and an Ingress object to route to these services
 ```
 kubectl apply -f ingress/usage.yaml
 ```
@@ -50,6 +48,21 @@ curl localhost/foo
 # should output "bar"
 curl localhost/bar
 ```
+
+# Manage your cluster
+[Install](https://k9scli.io/topics/install/) K9s
+
+K9s is a terminal based UI to interact with your Kubernetes clusters. 
+The aim of this project is to make it easier to navigate, observe and manage your deployed applications in the wild.
+K9s continually watches Kubernetes for changes and offers subsequent commands to interact with your observed resources.
+
+Kubernetes resources
+* https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+* https://kubectl.docs.kubernetes.io/
+* https://kubernetesbyexample.com/
+
+K8s Api reference
+* https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#-strong-api-overview-strong-
 
 # Delete cluster
 ```
